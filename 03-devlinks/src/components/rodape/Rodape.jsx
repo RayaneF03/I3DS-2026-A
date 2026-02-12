@@ -1,9 +1,9 @@
 import React, { Children } from 'react'
 
-const Rodape = () => {
+const Rodape = ({Children}) => {
   return (
    <footer>
-    <P>Feito com 🩵 por <a href="https://github.com">{Children}</a></P>
+  <p>Feito com 🩵 por  <a href="https://github.com">{Children}</a> </p>
    </footer>
   )
 }
