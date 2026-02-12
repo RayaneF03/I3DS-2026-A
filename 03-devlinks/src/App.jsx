@@ -2,10 +2,6 @@ import './App.css'
 import Perfil from './components/Perfil/Perfil'
 
 function App() {
-
-
-  <Perfil/>
-
   return (
     <div id='App'>
       <div className='Perfil'>
