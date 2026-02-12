@@ -2,7 +2,10 @@ import React from 'react'
 
 const Perfil = () => {
   return (
-    <div>Componente React</div>
+      <div className='Perfil'>
+        <img src="https://placehold.co/200x200" alt="" />
+        <p>@Seu Nome</p>
+      </div>
   )
 }
 
