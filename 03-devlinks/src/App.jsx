@@ -15,7 +15,12 @@ function App() {
            <Link url={""}>Conheça o curso do DEV</Link>
       </ul>
       <div className="Links"></div>
-      <div className="SocialLinks"></div>
+      <div className="SocialLinks">
+        <SocialLinks url={"https://github.com"} icon={"logo-github"}/>
+        <SocialLinks url={"https://instagram.com"} icon={"logo-instagram"}/>
+        <SocialLinks url={"https://youtube.com"} icon={"logo-youtube"}/>
+        <SocialLinks url={"https://linkedin.com"} icon={"logo-linkedin"}/>
+      </div>
       <div className="rodape"></div>
     </div>
   )
