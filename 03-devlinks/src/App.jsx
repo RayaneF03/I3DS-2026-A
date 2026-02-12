@@ -1,6 +1,7 @@
 import './App.css'
 import Link from './components/Link/Link'
 import Perfil from './components/Perfil/Perfil'
+import Rodape from './components/rodape/Rodape'
 import SocialLinks from './components/SocialLinks/SocialLinks'
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         <SocialLinks url={"https://youtube.com"} icon={"logo-youtube"}/>
         <SocialLinks url={"https://linkedin.com"} icon={"logo-linkedin"}/>
       </div>
-      <div className="rodape"></div>
+      <Rodape>Ray</Rodape>
     </div>
   )
 }
