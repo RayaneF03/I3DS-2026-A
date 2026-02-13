@@ -27,19 +27,13 @@
   padding: 24px;
 }
 
-/* Estilos para os links sociais: remover numeração e alinhar horizontalmente */
 #SocialLinks {
   display: flex;
-  gap: 12px;
-  padding: 24px;
-  align-items: center;
-}
-
-#SocialLinks a {
-  text-decoration: none;
-  color: inherit;
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  font-size: 24px;
+  align-items: center;
+  gap: 30px;
+  & a {
+    color: var(--text-color);
+    font-size: x-large;
+  }
 }
