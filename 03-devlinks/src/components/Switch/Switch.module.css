@@ -34,13 +34,13 @@
   }
 
   to {
-    left: 50%;
+    left: 55%;
   }
 }
 
 @keyframes slide-out {
   from {
-    left: 50%;
+    left: 55%;
   }
 
   to {
