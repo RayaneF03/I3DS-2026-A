@@ -36,6 +36,8 @@
   background-repeat: no-repeat;
   background-position: top center;
   color: var(--text-color);
+
+  transition: background 0.2s;
 }
 
 #Link {
