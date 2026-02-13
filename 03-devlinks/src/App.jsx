@@ -9,13 +9,15 @@ function App() {
     <div id="App">
       <Perfil fotoPerfil={"https://placehold.co/100"}>Ray</Perfil>
       <div className="switch">botão switch</div>
-      <ul>
+
+          <div Id="Link">
+          <ul>
             <Link url={""}>Instagram</Link>
             <Link url={""}>Minha Playlist</Link>
             <Link url={""}>Me pague um café</Link>
            <Link url={""}>Conheça o curso do DEV</Link>
-      </ul>
-      <div className="Links"></div>
+          </ul>
+          </div>  
       <div className="SocialLinks">
         <SocialLinks url={"https://github.com"} icon={"logo-github"}/>
         <SocialLinks url={"https://instagram.com"} icon={"logo-instagram"}/>
