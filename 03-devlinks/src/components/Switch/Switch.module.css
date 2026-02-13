@@ -49,19 +49,17 @@
 }
 
 & span {
- display: block;
- width: 64px;
- height: 24px;
- background-color: var(--switch-bg-url);
- border: 1px solid var(--stroke-color);
-border-radius: 999px;
+  display: block;
+  width: 64px;
+  height: 24px;
+  background-color: var(--switch-bg-url);
+  border: 1px solid var(--stroke-color);
+  border-radius: 999px;
 
- backdrop-filter: blur(4px);
--webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .light #Switch button {
-    animation: slide-in 0.2 forwards;
+  animation: slide-in 0.2s forwards;
 }
-
-
