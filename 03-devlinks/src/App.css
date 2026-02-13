@@ -1,6 +1,6 @@
 :root {
   --bg-url: url(./assets/bg-desktop-light.jpg);
-  --text-color: #000;
+  --text-color: #000000;
   --stroke-color: rgba(0, 0, 0, 0.5);
   --surface-color: rgba(0, 0, 0, 0.1);
   --surface-color-houver: rgba(0, 0, 0, 0.4);
@@ -17,4 +17,12 @@
   background-position: top center;
   object-fit: cover;
   color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
 }
