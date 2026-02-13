@@ -11,11 +11,11 @@
 }
 
 #App {
+  font-family: "Inter", sans-serif;
   height: 100vh;
   background-image: var(--bg-url);
   background-repeat: no-repeat;
   background-position: top center;
-  object-fit: cover;
   color: var(--text-color);
 }
 
