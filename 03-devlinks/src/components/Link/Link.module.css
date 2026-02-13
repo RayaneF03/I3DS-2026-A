@@ -13,3 +13,8 @@ li a {
   text-decoration: none;
   font-weight: bold;
 }
+
+li a:hover {
+  background-color: var(--surface-color-houver);
+  border-color: var(--text-color);
+}
