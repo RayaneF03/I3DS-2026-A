@@ -11,7 +11,8 @@
 }
 
 #App {
-  height: 100vh;
+  height: 100%;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -26,12 +27,20 @@
   color: var(--text-color);
 }
 
-#Link ul {
-  list-style: none;
+#Link {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 24px;
+  justify-content: center;
+
+  ul {
+    width: 100%;
+
+    max-width: 588px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+  }
 }
 
 #SocialLinks {
@@ -39,8 +48,9 @@
   justify-content: center;
   align-items: center;
   gap: 30px;
-  & a {
-    color: var(--text-color);
-    font-size: x-large;
-  }
+}
+
+#SocialLinks a {
+  color: var(--text-color);
+  font-size: x-large;
 }
