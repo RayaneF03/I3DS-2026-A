@@ -8,7 +8,7 @@ function App() {
   return (
     <div id="App">
       <Perfil fotoPerfil={"https://placehold.co/100"}>Ray</Perfil>
-      <div className="switch">botão switch</div>
+      <Switch />
 
           <div Id="Link">
           <ul>
