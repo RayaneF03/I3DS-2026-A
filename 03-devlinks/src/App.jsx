@@ -15,23 +15,23 @@ function App() {
   };
   return (
     <div id="App" className={isLight ? "light" : ""}>
-      <Perfil fotoPerfil={"https://placehold.co/100"}>Ray</Perfil>
+      <Perfil fotoPerfil="/src/assets/fotoPerfil.jpg.jpg">Ray</Perfil>
       
       <Switch troca={troca} isLight={isLight}/>
 
           <div id="Link">
           <ul>
-            <Link url={""}>Instagram</Link>
-            <Link url={""}>Minha Playlist</Link>
-            <Link url={""}>Me pague um café</Link>
-           <Link url={""}>Conheça o curso do DEV</Link>
+            <Link url={"https://www.instagram.com/"}>Instagram</Link>
+            <Link url={"https://open.spotify.com/playlist/62XId14Iuxh6zDZ6M4ggjE"}>Minha Playlist</Link>
+            <Link url={"https://mepagaumcafe.com.br/"}>Me pague um café</Link>
+           <Link url={"https://www.sp.senai.br/curso/tecnico-em-desenvolvimento-de-sistemas/102655"}>Conheça o curso do DEV</Link>
           </ul>
           </div>  
       <div id="SocialLinks">
-        <SocialLinks url={"https://github.com"} icon={"logo-github"}/>
-        <SocialLinks url={"https://instagram.com"} icon={"logo-instagram"}/>
-        <SocialLinks url={"https://youtube.com"} icon={"logo-youtube"}/>
-        <SocialLinks url={"https://linkedin.com"} icon={"logo-linkedin"}/>
+        <SocialLinks url={"https://github.com/RayaneF03"} icon={"logo-github"}/>
+        <SocialLinks url={"https://www.instagram.com/"} icon={"logo-instagram"}/>
+        <SocialLinks url={"https://www.youtube.com/@iukyuki1"} icon={"logo-youtube"}/>
+        <SocialLinks url={"https://www.linkedin.com/in/rayane-fernanda-dos-santos-9a8740325/"} icon={"logo-linkedin"}/>
       </div>
       <Rodape>Ray</Rodape>
     </div>
