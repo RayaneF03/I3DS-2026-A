@@ -1,4 +1,5 @@
 import "./App.css";
+import Rodape from "./assets/components/Rodape/Rodape";
 import logo from "./assets/devflix.png";
 import lupa from "./assets/search.svg";
 
@@ -15,7 +16,7 @@ const App = () => {
         <input type="text" placeholder="Pesquise por filmes e séries" />
         <img src={lupa} alt="Botão de ação de pesquisa" />
       </div>
-      <rodape>Ray</rodape>
+      <Rodape>Rayane</Rodape>
     </div>
   );
 };
