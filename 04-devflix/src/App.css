@@ -9,7 +9,7 @@
 @media (prefers-color-scheme: dark) {
   /*Dark theme*/
   :root {
-    --bg-primary: #212426;
+   /* --bg-primary: #212426;*/
   }
 }
 
