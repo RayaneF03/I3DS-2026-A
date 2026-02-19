@@ -5,7 +5,7 @@ import Perfil from './components/Perfil/Perfil'
 import Rodape from './components/rodape/Rodape'
 import SocialLinks from './components/SocialLinks/SocialLinks'
 import Switch from './components/Switch/Switch'
-
+import Foto from './assets/Perfil.jpg'
 
 function App() {
   const[isLight, setIsLight] = useState(true)
@@ -15,7 +15,7 @@ function App() {
   };
   return (
     <div id="App" className={isLight ? "light" : ""}>
-      <Perfil fotoPerfil="/src/assets/fotoPerfil.jpg.jpg">Ray</Perfil>
+      <Perfil fotoPerfil={Foto}>Ray</Perfil>
       
       <Switch troca={troca} isLight={isLight}/>
 
