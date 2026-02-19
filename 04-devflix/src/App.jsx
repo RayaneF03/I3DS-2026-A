@@ -16,9 +16,9 @@ const App = () => {
         <input type="text" placeholder="Pesquise por filmes e séries" />
         <img src={lupa} alt="Botão de ação de pesquisa" />
       </div>
-      <Rodape>Rayane</Rodape>
+      <Rodape link={"https://github.com/RayaneF03"}>Rayane</Rodape>
     </div>
   );
 };
 
-export default App;
+export default Rodape;
