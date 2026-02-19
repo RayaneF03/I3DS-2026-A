@@ -4,6 +4,7 @@
 
   /*Light Theme*/
   --bg-primary: #f5f5f5;
+  --bg-secundary: #ffffff;
   --text-primary: #333;
   --text-secundary: #666;
   --text-placeholder: #a1a1a1;
@@ -16,7 +17,7 @@
   /*Dark theme*/
   :root {
     --bg-primary: #212426;
-    --text-primary: #f5f5f5;
+    --bg-secundary: #343739;
     --text-secundary: #f0f0f0;
     --text-placeholder: #a1a1a1;
     --accent-color: #ffa500;
@@ -28,4 +29,61 @@
 body {
   font-family: var(--font-raleway);
   background: var(--bg-primary);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+#App {
+  padding: 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#Logo {
+  width: 70%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+.search {
+  width: 70%;
+  margin: 4em 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 1.75rem;
+  border-radius: 4rem;
+  background: var(--bg-secundary);
+  box-shadow: var(--shadow);
+
+  -webkit-box-shadow: var(--shadow);
+
+  transition: all 0.3s ease;
+
+  & input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding-right: 1rem;
+    color: var(--text-primary);
+    background: var(--bg-secundary);
+    font-size: 500;
+    transition: all 0.3s ease;
+  }
+
+  & input::placeholder {
+    color: var(--text-placeholder);
+  }
+
+  & img {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+  }
 }
