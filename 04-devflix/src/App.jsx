@@ -23,11 +23,11 @@ const App = () => {
     setMovies(data.Search);
   };
 
-  // useEffect é 
+  // useEffect é
   useEffect(() => {
-    
-    searchMovies("BTS");
-  }, []);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    searchMovies("Toy Story");
+  });
 
   return (
     <div id="App">
@@ -42,11 +42,15 @@ const App = () => {
         <img src={lupa} alt="Botão de ação para pesquisa!" />
       </div>
 
-      <div className="container">
-        {movies.map((movie, index) => (
-          <MovieCard key={index} {...movie} />
-        ))}
-      </div>
+      {movies?.length > 0 ? (
+        <div className="container">
+          {movies.map((movie, index) => (
+            <MovieCard key={index} {...movie} />
+          ))}
+        </div>
+      ) : (
+        <h2>😒 Filme Não Encontrado</h2>
+      )}
 
       <Rodape link={"https://github.com/RayaneF03"}>Ray</Rodape>
     </div>
