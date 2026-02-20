@@ -1,6 +1,9 @@
+import { useState } from "react";
 import styles from "./MovieCard.module.css";
 
 const MovieCard = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       <div className={styles.movie}>
