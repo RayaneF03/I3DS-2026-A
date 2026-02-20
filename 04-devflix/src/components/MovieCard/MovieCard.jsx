@@ -4,14 +4,15 @@ import MovieDescription from "../MovieDescription/MovieDescription";
 
 const MovieCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //console.log(isModalOpen);
+  // console.log(isModalOpen);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <>
-      <div className={styles.movie} onClick={() => setIsModalOpen(toggleModal)}>
+      <div className={styles.movie} onClick={toggleModal}>
         <div>
           <p>{props.Year}</p>
         </div>
@@ -26,7 +27,13 @@ const MovieCard = (props) => {
         </div>
       </div>
 
-      {isModalOpen && <MovieDescription />}
+      {isModalOpen && (
+        <MovieDescription
+          apiUrl={props.apiUrl}
+          movieID={props.imdbID}
+          click={toggleModal}
+        />
+      )}
     </>
   );
 };
