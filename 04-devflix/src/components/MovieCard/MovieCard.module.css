@@ -19,12 +19,14 @@
     z-index: 3;
     width: 100%;
     top: 0;
-    color: var(--text-secundary);
+    color: var(--accent-color);
     font-weight: bold;
     transition: opacity 0.3s ease;
     text-align: center;
     opacity: 1;
     padding: 16px;
+
+    background-color: var(--bg-secondary);
   }
 
   /*modificando o segundo item da div .movie*/
@@ -49,9 +51,23 @@
     left: 0;
     right: 0;
     padding: 16px 24px 24px;
-    background: var(--bg-secundary);
+    background: var(--bg-secondary);
 
     transition: all 0.3s ease;
+
+    & span {
+      text-transform: uppercase;
+      font-style: 13px;
+      letter-spacing: 2px;
+      font-weight: bold;
+      color: var(--text-secondary);
+    }
+
+    & h3 {
+      margin-top: 5px;
+      color: var(--accent-color);
+      transition: color 0.3s ease;
+    }
   }
 
   /*Estado ao passar o mouse por cima do bloco "MovieCard"*/
@@ -66,7 +82,6 @@
       opacity: 0.8;
     }
     & div:nth-of-type(3) {
-      background-color: transparent;
     }
   }
 }

@@ -96,3 +96,58 @@ body {
     cursor: pointer;
   }
 }
+
+.empty {
+  width: 100%;
+  margin-top: 2rem;
+  text-align: center;
+
+  color: var(--accent-color);
+}
+
+.container {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 600px) {
+  #App {
+    padding: 4rem 2rem;
+  }
+
+  .search {
+    padding: 1rem 1.75rem;
+    width: 100%;
+
+    & input {
+      font-style: 1.1rem;
+    }
+
+    & img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #App {
+    padding: 4rem 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+  .container {
+    margin-top: 2rem;
+  }
+
+  .movie {
+    width: 100%;
+    margin: 1rem;
+  }
+}

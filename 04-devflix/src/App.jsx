@@ -26,7 +26,7 @@ const App = () => {
   // useEffect é
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    searchMovies("Toy Story");
+    searchMovies(""); //termo da pesquisa
   });
 
   return (
@@ -49,7 +49,7 @@ const App = () => {
           ))}
         </div>
       ) : (
-        <h2>😒 Filme Não Encontrado</h2>
+        <h2 className="empty">😒 Filme Não Encontrado</h2>
       )}
 
       <Rodape link={"https://github.com/RayaneF03"}>Ray</Rodape>
