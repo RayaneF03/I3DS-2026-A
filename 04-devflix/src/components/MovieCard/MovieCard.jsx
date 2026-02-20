@@ -3,10 +3,10 @@ import styles from "./MovieCard.module.css";
 
 const MovieCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(isModalOpen);
   return (
     <>
-      <div className={styles.movie}>
+      <div className={styles.movie} onClick={() => setIsModalOpen(!isModalOpen)}>
         <div>
           <p>{props.Year}</p>
         </div>
