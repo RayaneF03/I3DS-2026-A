@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; // useState - Ele controla o estado do item |
 import "./App.css";
 
 import logo from "./assets/devflix.png";
@@ -10,20 +10,22 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
 
-  //Utilizando uma CHAVE de API do arquivo .env
+  //Utilizando uma CHAVE de API do arquivo .env |
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
   const apiUrl = `https://omdbapi.com/?apikey=${apiKey}`;
 
-  //Criando a conexão com a API e trazendo informações
+  //Criando a conexão com a API e trazendo informações |
   const searchMovies = async (title) => {
     const response = await fetch(`${apiUrl}&s=${title}`);
     const data = await response.json();
 
-    //Alimentando a variavel movies
+    //Alimentando a variavel movies |
     setMovies(data.Search);
   };
 
+  // useEffect é 
   useEffect(() => {
+    
     searchMovies("BTS");
   }, []);
 
