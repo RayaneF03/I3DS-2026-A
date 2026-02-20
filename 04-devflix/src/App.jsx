@@ -23,8 +23,6 @@ const App = () => {
     searchMovies("Batman");
   }, []);
 
-
-
   return (
     <div id="App">
       <img
