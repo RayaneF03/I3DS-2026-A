@@ -32,11 +32,13 @@ const App = () => {
 
   return (
     <div id="App">
-      <img
-        id="Logo"
-        src={logo}
-        alt="Logotipo do serviço de streaming Devflix, com letras vermelhas e fundo preto, promovendo conteúdo de séries, filmes e entretenimento online."
-      />
+      <div className="logo-container">
+        <img
+          id="Logo"
+          src={logo}
+          alt="Logotipo do serviço de streaming Devflix, com letras vermelhas e fundo preto, promovendo conteúdo de séries, filmes e entretenimento online."
+        />
+      </div>
 
       <div className="search">
         <input
