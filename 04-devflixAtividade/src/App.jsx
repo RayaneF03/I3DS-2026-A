@@ -10,7 +10,7 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -27,7 +27,7 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      await searchMovies("Hulk"); // termo para pesquina ao carregar o site
+      await searchMovies("Spider Man"); // termo para pesquina ao carregar o site
     })();
   }, []);
 
