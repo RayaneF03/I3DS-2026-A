@@ -12,6 +12,8 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [theme, setTheme] = useState("dark");
   const [language, setLanguage] = useState("pt");
+  const [showControls, setShowControls] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -31,9 +33,31 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      await searchMovies("Hulk"); // termo para pesquina ao carregar o site
+      await searchMovies("Spider Man"); // termo para pesquina ao carregar o site
     })();
   }, [searchMovies]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 10) {
+        // No topo, sempre mostra
+        setShowControls(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Rolando para baixo e já passou de 100px
+        setShowControls(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Rolando para cima
+        setShowControls(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -60,7 +84,7 @@ const App = () => {
 
   return (
     <div id="App" className={theme}>
-      <div className="top-controls">
+      <div className={`top-controls ${showControls ? "visible" : "hidden"}`}>
         <button
           className="lang-top-btn"
           onClick={toggleLanguage}

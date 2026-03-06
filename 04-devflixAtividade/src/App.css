@@ -78,6 +78,20 @@ body {
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.top-controls.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.top-controls.hidden {
+  transform: translateY(-120px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .lang-top-btn {
