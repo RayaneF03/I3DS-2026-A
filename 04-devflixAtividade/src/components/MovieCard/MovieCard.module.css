@@ -1,6 +1,7 @@
 .movie {
   inline-size: 310px;
   block-size: 460px;
+  max-width: 100%;
   margin: 1.5rem;
   position: relative;
   overflow: hidden;
