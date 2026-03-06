@@ -101,7 +101,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 30%;
+  min-height: 120px;
   background: linear-gradient(rgba(255, 255, 255, 0), var(--bg-secondary));
   transition: all 0.3s ease;
 
@@ -135,6 +135,8 @@
   font-size: 14pt;
   display: flex;
   padding: 2em 2em 1em;
+  flex-wrap: wrap;
+  gap: 0.8em;
 }
 
 .containerFlex {
@@ -154,44 +156,103 @@
 
 @media screen and (max-width: 768px) {
   .movieModal {
-    width: 550px;
+    width: 90vw;
+    max-width: 550px;
     max-height: 85vh;
+  }
+
+  .movieInfo img {
+    height: 350px;
+  }
+
+  .movieType {
+    min-height: 100px;
+
+    & div:nth-of-type(1) {
+      top: 1.5em;
+      left: 1.5em;
+      font-size: 0.9rem;
+    }
   }
 
   .containerMisc {
     flex-direction: column;
     gap: 0.5em;
+    font-size: 0.9rem;
+    padding: 1.5em 1.5em 1em;
   }
 
   .desc {
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.6;
     padding: 0 1.5em 2em;
     text-align: left;
+  }
+
+  .btnClose {
+    width: 32px;
+    height: 32px;
+    margin: 12px;
+  }
+
+  .languageToggle {
+    right: 50px;
+    margin: 12px;
+    padding: 5px 10px;
+    font-size: 0.7rem;
   }
 }
 
 @media screen and (max-width: 430px) {
   .movieModal {
-    width: min(94vw, 400px);
-    max-height: 92vh;
+    width: min(95vw, 400px);
+    max-height: 90vh;
     top: 50%;
     margin-top: 0;
   }
 
   .movieInfo img {
-    height: 300px;
+    height: 280px;
+  }
+
+  .movieType {
+    min-height: 90px;
+
+    & div:nth-of-type(1) {
+      top: 1.2em;
+      left: 1.2em;
+      font-size: 0.8rem;
+    }
   }
 
   .desc {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    padding: 0 1.5em 2em;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding: 0 1.2em 1.5em;
   }
 
   .containerMisc {
-    font-size: 0.85rem;
-    padding: 1.5em 1.5em 1em;
+    font-size: 0.8rem;
+    padding: 1.2em 1.2em 0.8em;
+  }
+
+  .feedback {
+    padding: 1.2em 1.2em;
+    font-size: 0.9rem;
+  }
+
+  .btnClose {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    font-size: 1.2rem;
+  }
+
+  .languageToggle {
+    right: 45px;
+    margin: 10px;
+    padding: 4px 8px;
+    font-size: 0.65rem;
   }
 }
 
