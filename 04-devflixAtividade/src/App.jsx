@@ -10,18 +10,8 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem("devflix_theme");
-    return savedTheme === "light" || savedTheme === "dark"
-      ? savedTheme
-      : "dark";
-  });
-  const [language, setLanguage] = useState(() => {
-    const savedLanguage = localStorage.getItem("devflix_language");
-    return savedLanguage === "pt" || savedLanguage === "en"
-      ? savedLanguage
-      : "pt";
-  });
+  const [theme, setTheme] = useState("dark");
+  const [language, setLanguage] = useState("pt");
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -41,31 +31,50 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      await searchMovies("Spider Man"); // termo para pesquina ao carregar o site
+      await searchMovies("Hulk"); // termo para pesquina ao carregar o site
     })();
   }, [searchMovies]);
-
-  useEffect(() => {
-    localStorage.setItem("devflix_theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    localStorage.setItem("devflix_language", language);
-  }, [language]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
   const toggleLanguage = () => {
-    setLanguage((prevLanguage) => (prevLanguage === "pt" ? "en" : "pt"));
+    setLanguage((prev) => (prev === "pt" ? "en" : "pt"));
   };
+
+  const texts = {
+    pt: {
+      searchPlaceholder: "Pesquise por filmes",
+      searchAlt: "Botão de ação para pesquisa!",
+      notFound: "😢 Filme não encontrado 😢",
+    },
+    en: {
+      searchPlaceholder: "Search for movies",
+      searchAlt: "Search action button!",
+      notFound: "😢 Movie not found 😢",
+    },
+  };
+
+  const t = texts[language];
 
   return (
     <div id="App" className={theme}>
-      <button className="theme-btn" onClick={toggleTheme}>
-        {theme === "light" ? "🌙" : "☀️"}
-      </button>
+      <div className="top-controls">
+        <button
+          className="lang-top-btn"
+          onClick={toggleLanguage}
+          title={
+            language === "pt" ? "Switch to English" : "Mudar para português"
+          }
+        >
+          {language === "pt" ? "EN" : "PT"}
+        </button>
+
+        <button className="theme-btn" onClick={toggleTheme}>
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
+      </div>
       <div className="logo-container">
         <img
           id="Logo"
@@ -79,12 +88,12 @@ const App = () => {
           onKeyDown={(e) => e.key === "Enter" && searchMovies(search)}
           onChange={(e) => setSearch(e.target.value)}
           type="text"
-          placeholder="Pesquise por filmes"
+          placeholder={t.searchPlaceholder}
         />
         <img
           onClick={() => searchMovies(search)}
           src={lupa}
-          alt="Botão de ação para pesquisa!"
+          alt={t.searchAlt}
         />
       </div>
 
@@ -101,10 +110,10 @@ const App = () => {
           ))}
         </div>
       ) : (
-        <h2 className="empty">😢 Filme não encontrado 😢</h2>
+        <h2 className="empty">{t.notFound}</h2>
       )}
 
-      <Rodape link={"https://github.com/RayaneF03"}>RaY</Rodape>
+      <Rodape link={"https://github.com/ProfCastello"}>ProfCastello</Rodape>
     </div>
   );
 };

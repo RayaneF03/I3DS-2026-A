@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./MovieDescription.module.css";
 
 const MovieDescription = (props) => {
@@ -11,6 +11,24 @@ const MovieDescription = (props) => {
     "https://translate.argosopentech.com/translate";
   const translationCacheKey = "devflix_translation_cache_v1";
   const detailsCacheKey = "devflix_movie_details_cache_v1";
+  const isPt = props.language !== "en";
+
+  const t = {
+    watch: isPt ? "▶️ Assistir" : "▶️ Watch",
+    loading: isPt ? "Carregando informações..." : "Loading information...",
+    error: isPt
+      ? "Não foi possível carregar este filme agora."
+      : "Could not load this movie right now.",
+    rating: isPt ? "Avaliação" : "Rating",
+    duration: isPt ? "Duração" : "Duration",
+    cast: isPt ? "Elenco" : "Cast",
+    genre: isPt ? "Gênero" : "Genre",
+    director: isPt ? "Direção" : "Director",
+    originalLanguage: isPt ? "Idioma original" : "Original language",
+    plot: isPt ? "Sinopse" : "Plot",
+    switchTitle: isPt ? "Mudar para inglês" : "Switch to Portuguese",
+    switchLabel: isPt ? "ENG" : "PT",
+  };
 
   const getFromCache = (key) => {
     try {
@@ -54,70 +72,73 @@ const MovieDescription = (props) => {
     }
   };
 
-  const translateText = async (text) => {
-    const normalizedText = (text || "").trim();
-    if (!normalizedText) return "";
+  const translateText = useCallback(
+    async (text) => {
+      const normalizedText = (text || "").trim();
+      if (!normalizedText) return "";
 
-    // 1) Google endpoint público (sem chave)
-    try {
-      const googleResponse = await fetch(
-        `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(normalizedText)}`,
-      );
+      // 1) Google endpoint público (sem chave)
+      try {
+        const googleResponse = await fetch(
+          `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=${encodeURIComponent(normalizedText)}`,
+        );
 
-      if (googleResponse.ok) {
-        const googleData = await googleResponse.json();
-        const translatedByGoogle = googleData?.[0]
-          ?.map((part) => part?.[0] || "")
-          .join("")
-          ?.trim();
+        if (googleResponse.ok) {
+          const googleData = await googleResponse.json();
+          const translatedByGoogle = googleData?.[0]
+            ?.map((part) => part?.[0] || "")
+            .join("")
+            ?.trim();
 
-        if (translatedByGoogle) {
-          return translatedByGoogle;
+          if (translatedByGoogle) {
+            return translatedByGoogle;
+          }
+        }
+      } catch {
+        // tenta próximo provedor
+      }
+
+      // 2) LibreTranslate
+      try {
+        const response = await fetch(translateApiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            q: normalizedText,
+            source: "en",
+            target: "pt",
+            format: "text",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Falha na tradução (LibreTranslate)");
+        }
+
+        const data = await response.json();
+        if (data?.translatedText) {
+          return data.translatedText;
+        }
+
+        throw new Error("Resposta inválida da API de tradução");
+      } catch (error) {
+        // 3) MyMemory (fallback)
+        try {
+          const fallbackResponse = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(normalizedText)}&langpair=en|pt`,
+          );
+          const fallbackData = await fallbackResponse.json();
+          return fallbackData?.responseData?.translatedText || normalizedText;
+        } catch {
+          console.error("Erro ao traduzir:", error);
+          return normalizedText;
         }
       }
-    } catch {
-      // tenta próximo provedor
-    }
-
-    // 2) LibreTranslate
-    try {
-      const response = await fetch(translateApiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          q: normalizedText,
-          source: "en",
-          target: "pt",
-          format: "text",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Falha na tradução (LibreTranslate)");
-      }
-
-      const data = await response.json();
-      if (data?.translatedText) {
-        return data.translatedText;
-      }
-
-      throw new Error("Resposta inválida da API de tradução");
-    } catch (error) {
-      // 3) MyMemory (fallback)
-      try {
-        const fallbackResponse = await fetch(
-          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(normalizedText)}&langpair=en|pt`,
-        );
-        const fallbackData = await fallbackResponse.json();
-        return fallbackData?.responseData?.translatedText || normalizedText;
-      } catch {
-        console.error("Erro ao traduzir:", error);
-        return normalizedText;
-      }
-    }
-  };
+    },
+    [translateApiUrl],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -156,7 +177,7 @@ const MovieDescription = (props) => {
         setMovieDesc(data);
         saveDetailsToCache(props.movieID, data);
 
-        if (props.language === "en") {
+        if (!isPt) {
           setPlotTranslated("");
           return;
         }
@@ -191,7 +212,7 @@ const MovieDescription = (props) => {
     return () => {
       cancelled = true;
     };
-  }, [props.movieID, props.apiUrl, props.language]);
+  }, [props.movieID, props.apiUrl, props.language, isPt, translateText]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -225,13 +246,9 @@ const MovieDescription = (props) => {
           <button
             className={styles.languageToggle}
             onClick={props.onToggleLanguage}
-            title={
-              props.language === "pt"
-                ? "Mudar para inglês"
-                : "Switch to Portuguese"
-            }
+            title={t.switchTitle}
           >
-            {props.language === "pt" ? "ENG" : "PT"}
+            {t.switchLabel}
           </button>
 
           <button className={styles.btnClose} onClick={props.click}>
@@ -247,38 +264,42 @@ const MovieDescription = (props) => {
                 href={`https://google.com/search?q=${encodeURIComponent(movieDesc.Title)}`}
                 target="_blank"
               >
-                ▶️ Assistir
+                {t.watch}
               </a>
             </div>
           </div>
         </div>
 
-        {isLoading && (
-          <p className={styles.feedback}>Carregando informações...</p>
-        )}
+        {isLoading && <p className={styles.feedback}>{t.loading}</p>}
 
-        {hasError && (
-          <p className={styles.feedback}>
-            Não foi possível carregar este filme agora.
-          </p>
-        )}
+        {hasError && <p className={styles.feedback}>{t.error}</p>}
 
         {!hasError && movieDesc?.Title && (
           <>
             <div className={styles.containerMisc}>
               <div className={styles.containerFlex}>
-                Avaliação: {movieDesc.imdbRating} | Duração: {movieDesc.Runtime}{" "}
-                | {movieDesc.Released}
+                {t.rating}: {movieDesc.imdbRating} | {t.duration}:{" "}
+                {movieDesc.Runtime} | {movieDesc.Released}
               </div>
               <div className={styles.containerFlex}>
-                <p>Elenco: {movieDesc.Actors}</p>
-                <p>Gênero: {movieDesc.Genre}</p>
-                <p>Direção: {movieDesc.Director}</p>
-                <p>Idioma original: {movieDesc.Language}</p>
+                <p>
+                  {t.cast}: {movieDesc.Actors}
+                </p>
+                <p>
+                  {t.genre}: {movieDesc.Genre}
+                </p>
+                <p>
+                  {t.director}: {movieDesc.Director}
+                </p>
+                <p>
+                  {t.originalLanguage}: {movieDesc.Language}
+                </p>
               </div>
             </div>
             <div className={styles.desc}>
-              <p>Sinopse: {plotTranslated || movieDesc.Plot}</p>
+              <p>
+                {t.plot}: {plotTranslated || movieDesc.Plot}
+              </p>
             </div>
           </>
         )}
