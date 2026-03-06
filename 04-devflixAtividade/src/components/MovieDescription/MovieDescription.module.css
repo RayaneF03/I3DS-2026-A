@@ -134,6 +134,12 @@
   flex: 1;
 }
 
+.feedback {
+  padding: 1.5em 2em;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
 .desc {
   padding: 0 2em 2em;
   text-align: justify;

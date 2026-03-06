@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; // useState - Ele controla o estado do item |
+import { useCallback, useEffect, useState } from "react"; // useState - Ele controla o estado do item |
 import "./App.css";
 
 import logo from "./assets/devflix.png";
@@ -10,27 +10,48 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
-  const [theme, setTheme] = useState("dark");
-  const [language, setLanguage] = useState("pt");
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("devflix_theme");
+    return savedTheme === "light" || savedTheme === "dark"
+      ? savedTheme
+      : "dark";
+  });
+  const [language, setLanguage] = useState(() => {
+    const savedLanguage = localStorage.getItem("devflix_language");
+    return savedLanguage === "pt" || savedLanguage === "en"
+      ? savedLanguage
+      : "pt";
+  });
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
   const apiUrl = `https://omdbapi.com/?apikey=${apiKey}`;
 
   //Criando a conexão com a API e trazendo informações
-  const searchMovies = async (title) => {
-    const response = await fetch(`${apiUrl}&s=${title}`);
-    const data = await response.json();
+  const searchMovies = useCallback(
+    async (title) => {
+      const response = await fetch(`${apiUrl}&s=${title}`);
+      const data = await response.json();
 
-    //Alimentando a variavel movies
-    setMovies(data.Search);
-  };
+      //Alimentando a variavel movies
+      setMovies(data.Search);
+    },
+    [apiUrl],
+  );
 
   useEffect(() => {
     (async () => {
       await searchMovies("Spider Man"); // termo para pesquina ao carregar o site
     })();
-  }, []);
+  }, [searchMovies]);
+
+  useEffect(() => {
+    localStorage.setItem("devflix_theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    localStorage.setItem("devflix_language", language);
+  }, [language]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -83,7 +104,7 @@ const App = () => {
         <h2 className="empty">😢 Filme não encontrado 😢</h2>
       )}
 
-      <Rodape link={"https://github.com/ProfCastello"}>ProfCastello</Rodape>
+      <Rodape link={"https://github.com/RayaneF03"}>RaY</Rodape>
     </div>
   );
 };

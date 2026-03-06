@@ -4,6 +4,8 @@ import styles from "./MovieDescription.module.css";
 const MovieDescription = (props) => {
   const [movieDesc, setMovieDesc] = useState([]);
   const [plotTranslated, setPlotTranslated] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const translateApiUrl =
     import.meta.env.VITE_TRANSLATE_API_URL ||
     "https://translate.argosopentech.com/translate";
@@ -100,10 +102,19 @@ const MovieDescription = (props) => {
 
     const fetchMovieData = async () => {
       try {
+        setIsLoading(true);
+        setHasError(false);
         setPlotTranslated("");
         const response = await fetch(`${props.apiUrl}&i=${props.movieID}`);
         const data = await response.json();
         if (cancelled) return;
+
+        if (data?.Response === "False") {
+          setHasError(true);
+          setMovieDesc([]);
+          return;
+        }
+
         setMovieDesc(data);
 
         if (props.language === "en") {
@@ -130,6 +141,9 @@ const MovieDescription = (props) => {
         }
       } catch (error) {
         console.error(error);
+        if (!cancelled) setHasError(true);
+      } finally {
+        if (!cancelled) setIsLoading(false);
       }
     };
 
@@ -139,6 +153,23 @@ const MovieDescription = (props) => {
       cancelled = true;
     };
   }, [props.movieID, props.apiUrl, props.language]);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        props.click();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [props]);
 
   return (
     <div className={styles.modalBackdrop} onClick={props.click}>
@@ -176,19 +207,36 @@ const MovieDescription = (props) => {
             </div>
           </div>
         </div>
-        <div className={styles.containerMisc}>
-          <div className={styles.containerFlex}>
-            Avaliação: {movieDesc.imdbRating} | Duração: {movieDesc.Runtime} |{" "}
-            {movieDesc.Released}
-          </div>
-          <div className={styles.containerFlex}>
-            <p>Elenco: {movieDesc.Actors}</p>
-            <p>Gênero: {movieDesc.Genre}</p>
-          </div>
-        </div>
-        <div className={styles.desc}>
-          <p>Sinopse: {plotTranslated || movieDesc.Plot}</p>
-        </div>
+
+        {isLoading && (
+          <p className={styles.feedback}>Carregando informações...</p>
+        )}
+
+        {hasError && (
+          <p className={styles.feedback}>
+            Não foi possível carregar este filme agora.
+          </p>
+        )}
+
+        {!isLoading && !hasError && movieDesc?.Title && (
+          <>
+            <div className={styles.containerMisc}>
+              <div className={styles.containerFlex}>
+                Avaliação: {movieDesc.imdbRating} | Duração: {movieDesc.Runtime}{" "}
+                | {movieDesc.Released}
+              </div>
+              <div className={styles.containerFlex}>
+                <p>Elenco: {movieDesc.Actors}</p>
+                <p>Gênero: {movieDesc.Genre}</p>
+                <p>Direção: {movieDesc.Director}</p>
+                <p>Idioma original: {movieDesc.Language}</p>
+              </div>
+            </div>
+            <div className={styles.desc}>
+              <p>Sinopse: {plotTranslated || movieDesc.Plot}</p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
