@@ -32,6 +32,7 @@ const MovieCard = (props) => {
           apiUrl={props.apiUrl}
           movieID={props.imdbID}
           click={toggleModal}
+          language={props.language}
         />
       )}
     </>

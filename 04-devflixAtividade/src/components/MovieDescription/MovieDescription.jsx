@@ -3,13 +3,43 @@ import styles from "./MovieDescription.module.css";
 
 const MovieDescription = (props) => {
   const [movieDesc, setMovieDesc] = useState([]);
+  const [plotTranslated, setPlotTranslated] = useState("");
+  const [dateTranslated, setDateTranslated] = useState("");
+
+  const translateText = async (text) => {
+    try {
+      const response = await fetch(
+        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|pt`,
+      );
+      const data = await response.json();
+      return data.responseData.translatedText;
+    } catch (error) {
+      console.error("Erro ao traduzir:", error);
+      return text; // Retorna o texto original em caso de erro
+    }
+  };
 
   useEffect(() => {
     fetch(`${props.apiUrl}&i=${props.movieID}`)
       .then((response) => response.json())
-      .then((data) => setMovieDesc(data))
+      .then((data) => {
+        setMovieDesc(data);
+        // Traduzir apenas se o idioma for português
+        if (props.language === "pt") {
+          if (data.Plot && data.Plot !== "N/A") {
+            translateText(data.Plot).then(setPlotTranslated);
+          }
+          if (data.Released && data.Released !== "N/A") {
+            translateText(data.Released).then(setDateTranslated);
+          }
+        } else {
+          // Se for inglês, resetar as traduções
+          setPlotTranslated("");
+          setDateTranslated("");
+        }
+      })
       .catch((error) => console.error(error));
-  }, []);
+  }, [props.language]);
 
   return (
     <div className={styles.modalBackdrop} onClick={props.click}>
@@ -38,7 +68,7 @@ const MovieDescription = (props) => {
         <div className={styles.containerMisc}>
           <div className={styles.containerFlex}>
             Avaliação: {movieDesc.imdbRating} | Duração: {movieDesc.Runtime} |{" "}
-            {movieDesc.Released}
+            {dateTranslated || movieDesc.Released}
           </div>
           <div className={styles.containerFlex}>
             <p>Elenco: {movieDesc.Actors}</p>
@@ -46,7 +76,7 @@ const MovieDescription = (props) => {
           </div>
         </div>
         <div className={styles.desc}>
-          <p>Sinopse: {movieDesc.Plot}</p>
+          <p>Sinopse: {plotTranslated || movieDesc.Plot}</p>
         </div>
       </div>
     </div>
