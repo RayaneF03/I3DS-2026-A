@@ -10,6 +10,7 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
+  const [language, setLanguage] = useState("pt"); // "pt" para português, "en" para inglês
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -57,7 +58,12 @@ const App = () => {
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie, index) => (
-            <MovieCard key={index} {...movie} apiUrl={apiUrl} />
+            <MovieCard
+              key={index}
+              {...movie}
+              apiUrl={apiUrl}
+              language={language}
+            />
           ))}
         </div>
       ) : (

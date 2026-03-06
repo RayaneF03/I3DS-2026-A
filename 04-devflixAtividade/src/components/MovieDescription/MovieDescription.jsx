@@ -20,12 +20,17 @@ const MovieDescription = (props) => {
   };
 
   useEffect(() => {
-    fetch(`${props.apiUrl}&i=${props.movieID}`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchMovieData = async () => {
+      try {
+        const response = await fetch(`${props.apiUrl}&i=${props.movieID}`);
+        const data = await response.json();
+
+        // Carrega os dados imediatamente
         setMovieDesc(data);
-        // Traduzir apenas se o idioma for português
+
+        // Se for português, buscar tradução em background
         if (props.language === "pt") {
+          // Traduzir em background sem bloquear a exibição
           if (data.Plot && data.Plot !== "N/A") {
             translateText(data.Plot).then(setPlotTranslated);
           }
@@ -37,8 +42,12 @@ const MovieDescription = (props) => {
           setPlotTranslated("");
           setDateTranslated("");
         }
-      })
-      .catch((error) => console.error(error));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMovieData();
   }, [props.language]);
 
   return (
