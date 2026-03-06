@@ -157,7 +157,6 @@ body {
 
 .search {
   width: 70%;
-  max-width: 100%;
   margin: 4rem 0 2rem;
   display: flex;
   align-items: center;
@@ -170,7 +169,6 @@ body {
   -webkit-box-shadow: var(--shadow);
 
   transition: all 0.3s ease;
-  box-sizing: border-box;
 
   & input {
     flex: 1;
@@ -238,9 +236,8 @@ body {
 
   .search {
     padding: 1rem 1.5rem;
-    width: 100%;
-    max-width: calc(100vw - 4rem);
-    margin: 3rem 0 1.5rem;
+    width: calc(100% - 1rem);
+    margin: 3rem 0.5rem 2rem;
 
     & input {
       font-size: 1.1rem;
@@ -286,7 +283,6 @@ body {
 
   .movie {
     width: 100%;
-    max-width: calc(100vw - 4rem);
-    margin: 1rem auto;
+    margin: 1rem;
   }
 }

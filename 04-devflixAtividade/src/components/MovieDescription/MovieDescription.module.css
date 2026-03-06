@@ -101,13 +101,13 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  min-height: 120px;
+  min-height: 140px;
   background: linear-gradient(rgba(255, 255, 255, 0), var(--bg-secondary));
   transition: all 0.3s ease;
 
   & div:nth-of-type(1) {
     position: absolute;
-    top: 2em;
+    top: 0.8em;
     left: 2em;
     color: var(--text-primary);
     text-transform: uppercase;
@@ -166,10 +166,10 @@
   }
 
   .movieType {
-    min-height: 100px;
+    min-height: 140px;
 
     & div:nth-of-type(1) {
-      top: 1.5em;
+      top: 1em;
       left: 1.5em;
       font-size: 0.9rem;
     }
@@ -179,7 +179,7 @@
     flex-direction: column;
     gap: 0.5em;
     font-size: 0.9rem;
-    padding: 1.5em 1.5em 1em;
+    padding: 2.5em 1.5em 1em;
   }
 
   .desc {
@@ -216,10 +216,10 @@
   }
 
   .movieType {
-    min-height: 90px;
+    min-height: 130px;
 
     & div:nth-of-type(1) {
-      top: 1.2em;
+      top: 0.8em;
       left: 1.2em;
       font-size: 0.8rem;
     }
@@ -233,11 +233,11 @@
 
   .containerMisc {
     font-size: 0.8rem;
-    padding: 1.2em 1.2em 0.8em;
+    padding: 2.2em 1.2em 0.8em;
   }
 
   .feedback {
-    padding: 1.2em 1.2em;
+    padding: 2em 1.2em;
     font-size: 0.9rem;
   }
 
