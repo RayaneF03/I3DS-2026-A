@@ -4,7 +4,6 @@ import styles from "./MovieDescription.module.css";
 const MovieDescription = (props) => {
   const [movieDesc, setMovieDesc] = useState([]);
   const [plotTranslated, setPlotTranslated] = useState("");
-  const [dateTranslated, setDateTranslated] = useState("");
 
   const translateText = async (text) => {
     try {
@@ -15,7 +14,7 @@ const MovieDescription = (props) => {
       return data.responseData.translatedText;
     } catch (error) {
       console.error("Erro ao traduzir:", error);
-      return text; // Retorna o texto original em caso de erro
+      return text;
     }
   };
 
@@ -24,23 +23,12 @@ const MovieDescription = (props) => {
       try {
         const response = await fetch(`${props.apiUrl}&i=${props.movieID}`);
         const data = await response.json();
-
-        // Carrega os dados imediatamente
         setMovieDesc(data);
 
-        // Se for português, buscar tradução em background
-        if (props.language === "pt") {
-          // Traduzir em background sem bloquear a exibição
-          if (data.Plot && data.Plot !== "N/A") {
-            translateText(data.Plot).then(setPlotTranslated);
-          }
-          if (data.Released && data.Released !== "N/A") {
-            translateText(data.Released).then(setDateTranslated);
-          }
-        } else {
-          // Se for inglês, resetar as traduções
-          setPlotTranslated("");
-          setDateTranslated("");
+        // Traduz a sinopse automaticamente
+        if (data.Plot && data.Plot !== "N/A") {
+          const translated = await translateText(data.Plot);
+          setPlotTranslated(translated);
         }
       } catch (error) {
         console.error(error);
@@ -48,7 +36,7 @@ const MovieDescription = (props) => {
     };
 
     fetchMovieData();
-  }, [props.language]);
+  }, [props.movieID, props.apiUrl]);
 
   return (
     <div className={styles.modalBackdrop} onClick={props.click}>
@@ -77,7 +65,7 @@ const MovieDescription = (props) => {
         <div className={styles.containerMisc}>
           <div className={styles.containerFlex}>
             Avaliação: {movieDesc.imdbRating} | Duração: {movieDesc.Runtime} |{" "}
-            {dateTranslated || movieDesc.Released}
+            {movieDesc.Released}
           </div>
           <div className={styles.containerFlex}>
             <p>Elenco: {movieDesc.Actors}</p>

@@ -1,41 +1,39 @@
 :root {
   /* :root -> variáveis de css no tema original projetado */
   --font-raleway: "Raleway", sans-serif;
+}
 
-  /* Light theme (padrão) */
+/* Light theme (padrão) */
+#App.light {
   --bg-primary: #e8d8c4;
-  --bg-secondary: #fff;
-  --text-primary: #333;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #888282;
   --text-secondary: #666;
   --text-placeholder: #a1a1a1;
-  --accent-color: #750000;
+  --accent-color: #c9baa7;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --shadow: 4px 0px 11px var(--shadow-color);
   --logo: url("./assets/devflix.png");
+  --botton: #e8d8c4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark theme */
-    --bg-primary: #53161d;
-    --bg-secondary: #131313;
-    --text-primary: #f5f5f5;
-    --text-secondary: #f0f0f0;
-    --text-placeholder: #a1a1a1;
-    --accent-color: #f2e5c5;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --shadow: 0px 2px 8px #1c1d1f, -5px -5px 7px #222527;
-    --logo: url("./assets/devflix-dark.png");
-  }
+/* Dark theme */
+#App.dark {
+  --bg-primary: #53161d;
+  --bg-secondary: #131313;
+  --text-primary: #f5f5f5;
+  --text-secondary: #f0f0f0;
+  --text-placeholder: #a1a1a1;
+  --accent-color: #c2b9b9;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow: 0px 2px 8px #1c1d1f, -5px -5px 7px #222527;
+  --logo: url("./assets/devflix-dark.png");
 }
 
 body {
   font-family: var(--font-raleway);
   background: var(--bg-primary);
-
   color: var(--text-primary);
-
-  /* Efeito de transição */
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -47,6 +45,34 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  transition: all 0.3s ease;
+}
+
+.theme-btn {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  width: 65px;
+  height: 65px;
+  background: var(--botton);
+  color: var(--bg-secondary);
+  border: none;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-btn:hover {
+  opacity: 0.85;
+  transform: scale(1.1) rotate(180deg);
 }
 
 .logo-container {

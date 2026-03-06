@@ -10,7 +10,7 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
-  const [language, setLanguage] = useState("pt"); // "pt" para português, "en" para inglês
+  const [theme, setTheme] = useState("light");
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -31,8 +31,15 @@ const App = () => {
     })();
   }, []);
 
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   return (
-    <div id="App">
+    <div id="App" className={theme}>
+      <button className="theme-btn" onClick={toggleTheme}>
+        {theme === "light" ? "🌙" : "☀️"}
+      </button>
       <div className="logo-container">
         <img
           id="Logo"
@@ -58,12 +65,7 @@ const App = () => {
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie, index) => (
-            <MovieCard
-              key={index}
-              {...movie}
-              apiUrl={apiUrl}
-              language={language}
-            />
+            <MovieCard key={index} {...movie} apiUrl={apiUrl} />
           ))}
         </div>
       ) : (
