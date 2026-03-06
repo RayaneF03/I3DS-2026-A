@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./MovieDescription.module.css";
 
 const MovieDescription = (props) => {
-  const [movieDesc, setMovieDesc] = useState([]);
+  const [movieDesc, setMovieDesc] = useState(props.initialMovie || {});
   const [plotTranslated, setPlotTranslated] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -10,6 +10,7 @@ const MovieDescription = (props) => {
     import.meta.env.VITE_TRANSLATE_API_URL ||
     "https://translate.argosopentech.com/translate";
   const translationCacheKey = "devflix_translation_cache_v1";
+  const detailsCacheKey = "devflix_movie_details_cache_v1";
 
   const getFromCache = (key) => {
     try {
@@ -27,6 +28,27 @@ const MovieDescription = (props) => {
       const cache = raw ? JSON.parse(raw) : {};
       cache[key] = value;
       localStorage.setItem(translationCacheKey, JSON.stringify(cache));
+    } catch {
+      // ignora erro de cache
+    }
+  };
+
+  const getDetailsFromCache = (key) => {
+    try {
+      const raw = localStorage.getItem(detailsCacheKey);
+      const cache = raw ? JSON.parse(raw) : {};
+      return cache[key] || null;
+    } catch {
+      return null;
+    }
+  };
+
+  const saveDetailsToCache = (key, value) => {
+    try {
+      const raw = localStorage.getItem(detailsCacheKey);
+      const cache = raw ? JSON.parse(raw) : {};
+      cache[key] = value;
+      localStorage.setItem(detailsCacheKey, JSON.stringify(cache));
     } catch {
       // ignora erro de cache
     }
@@ -105,6 +127,22 @@ const MovieDescription = (props) => {
         setIsLoading(true);
         setHasError(false);
         setPlotTranslated("");
+
+        const cachedMovieDetails = getDetailsFromCache(props.movieID);
+        if (cachedMovieDetails) {
+          setMovieDesc(cachedMovieDetails);
+          setIsLoading(false);
+
+          if (props.language === "pt" && cachedMovieDetails.Plot) {
+            const cacheId = `plot:${cachedMovieDetails.imdbID || props.movieID}:pt`;
+            const cachedTranslation = getFromCache(cacheId);
+            if (cachedTranslation) {
+              setPlotTranslated(cachedTranslation);
+            }
+          }
+          return;
+        }
+
         const response = await fetch(`${props.apiUrl}&i=${props.movieID}`);
         const data = await response.json();
         if (cancelled) return;
@@ -116,6 +154,7 @@ const MovieDescription = (props) => {
         }
 
         setMovieDesc(data);
+        saveDetailsToCache(props.movieID, data);
 
         if (props.language === "en") {
           setPlotTranslated("");
@@ -172,8 +211,14 @@ const MovieDescription = (props) => {
   }, [props]);
 
   return (
-    <div className={styles.modalBackdrop} onClick={props.click}>
-      <div className={styles.movieModal} onClick={(e) => e.stopPropagation()}>
+    <div
+      className={`${styles.modalBackdrop} ${props.isClosing ? styles.fadeOut : ""}`}
+      onClick={props.click}
+    >
+      <div
+        className={`${styles.movieModal} ${props.isClosing ? styles.fadeOut : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.movieInfo}>
           <img src={movieDesc.Poster} alt="" />
 
@@ -218,7 +263,7 @@ const MovieDescription = (props) => {
           </p>
         )}
 
-        {!isLoading && !hasError && movieDesc?.Title && (
+        {!hasError && movieDesc?.Title && (
           <>
             <div className={styles.containerMisc}>
               <div className={styles.containerFlex}>

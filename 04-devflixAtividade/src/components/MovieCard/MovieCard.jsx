@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./MovieCard.module.css";
 import MovieDescription from "../MovieDescription/MovieDescription";
 
 const MovieCard = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // console.log(isModalOpen);
+  const [isClosing, setIsClosing] = useState(false);
+  const closeTimeoutRef = useRef(null);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const openModal = () => {
+    setIsClosing(false);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsClosing(true);
+
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
+
+    closeTimeoutRef.current = setTimeout(() => {
+      setIsModalOpen(false);
+      setIsClosing(false);
+    }, 250);
   };
 
   return (
     <>
-      <div className={styles.movie} onClick={toggleModal}>
+      <div className={styles.movie} onClick={openModal}>
         <div>
           <p>{props.Year}</p>
         </div>
@@ -31,9 +54,17 @@ const MovieCard = (props) => {
         <MovieDescription
           apiUrl={props.apiUrl}
           movieID={props.imdbID}
-          click={toggleModal}
+          click={closeModal}
           language={props.language}
           onToggleLanguage={props.onToggleLanguage}
+          isClosing={isClosing}
+          initialMovie={{
+            imdbID: props.imdbID,
+            Title: props.Title,
+            Year: props.Year,
+            Poster: props.Poster,
+            Type: props.Type,
+          }}
         />
       )}
     </>
