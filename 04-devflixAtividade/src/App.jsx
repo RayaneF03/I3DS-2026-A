@@ -10,8 +10,12 @@ import MovieCard from "./components/MovieCard/MovieCard";
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
-  const [theme, setTheme] = useState("dark");
-  const [language, setLanguage] = useState("pt");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("devflix_theme") || "dark";
+  });
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem("devflix_language") || "pt";
+  });
   const [showControls, setShowControls] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -36,6 +40,16 @@ const App = () => {
       await searchMovies("Spider Man"); // termo para pesquina ao carregar o site
     })();
   }, [searchMovies]);
+
+  // Salvar tema no localStorage
+  useEffect(() => {
+    localStorage.setItem("devflix_theme", theme);
+  }, [theme]);
+
+  // Salvar idioma no localStorage
+  useEffect(() => {
+    localStorage.setItem("devflix_language", language);
+  }, [language]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,7 +106,7 @@ const App = () => {
             language === "pt" ? "Switch to English" : "Mudar para português"
           }
         >
-          {language === "pt" ? "EN" : "PT"}
+          {language === "pt" ? "PT" : "EN"}
         </button>
 
         <button className="theme-btn" onClick={toggleTheme}>
