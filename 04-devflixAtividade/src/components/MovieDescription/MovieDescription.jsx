@@ -106,9 +106,14 @@ const MovieDescription = (props) => {
         if (cancelled) return;
         setMovieDesc(data);
 
+        if (props.language === "en") {
+          setPlotTranslated("");
+          return;
+        }
+
         // Traduz a sinopse automaticamente
         if (data.Plot && data.Plot !== "N/A") {
-          const cacheId = `plot:${data.imdbID || props.movieID}`;
+          const cacheId = `plot:${data.imdbID || props.movieID}:pt`;
           const cachedTranslation = getFromCache(cacheId);
 
           if (cachedTranslation) {
@@ -133,13 +138,25 @@ const MovieDescription = (props) => {
     return () => {
       cancelled = true;
     };
-  }, [props.movieID, props.apiUrl]);
+  }, [props.movieID, props.apiUrl, props.language]);
 
   return (
     <div className={styles.modalBackdrop} onClick={props.click}>
       <div className={styles.movieModal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.movieInfo}>
           <img src={movieDesc.Poster} alt="" />
+
+          <button
+            className={styles.languageToggle}
+            onClick={props.onToggleLanguage}
+            title={
+              props.language === "pt"
+                ? "Mudar para inglês"
+                : "Switch to Portuguese"
+            }
+          >
+            {props.language === "pt" ? "ENG" : "PT"}
+          </button>
 
           <button className={styles.btnClose} onClick={props.click}>
             X

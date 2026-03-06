@@ -67,6 +67,29 @@
   justify-content: center;
 }
 
+.languageToggle {
+  position: absolute;
+  top: 0;
+  right: 55px;
+  margin: 15px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.languageToggle:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
+}
+
 .movieType {
   position: absolute;
   bottom: 0;

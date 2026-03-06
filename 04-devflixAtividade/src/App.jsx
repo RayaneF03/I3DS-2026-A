@@ -11,6 +11,7 @@ const App = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
   const [theme, setTheme] = useState("dark");
+  const [language, setLanguage] = useState("pt");
 
   //Utilizando uma CHAVE de API do arquivo .env
   const apiKey = import.meta.env.VITE_OMDB_API_KEY;
@@ -33,6 +34,10 @@ const App = () => {
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  const toggleLanguage = () => {
+    setLanguage((prevLanguage) => (prevLanguage === "pt" ? "en" : "pt"));
   };
 
   return (
@@ -65,7 +70,13 @@ const App = () => {
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie, index) => (
-            <MovieCard key={index} {...movie} apiUrl={apiUrl} />
+            <MovieCard
+              key={index}
+              {...movie}
+              apiUrl={apiUrl}
+              language={language}
+              onToggleLanguage={toggleLanguage}
+            />
           ))}
         </div>
       ) : (

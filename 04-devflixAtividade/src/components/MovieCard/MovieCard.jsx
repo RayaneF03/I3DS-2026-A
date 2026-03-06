@@ -33,6 +33,7 @@ const MovieCard = (props) => {
           movieID={props.imdbID}
           click={toggleModal}
           language={props.language}
+          onToggleLanguage={props.onToggleLanguage}
         />
       )}
     </>
