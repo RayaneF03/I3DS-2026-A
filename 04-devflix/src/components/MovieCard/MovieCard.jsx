@@ -39,4 +39,3 @@ const MovieCard = (props) => {
 };
 
 export default MovieCard;
-5
