@@ -1,0 +1,24 @@
+.navbar {
+  background-color: black;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+
+  & a {
+    padding: 20px;
+    text-decoration: none;
+    color: white;
+  }
+
+  & a:hover {
+    color: indigo;
+    background-color: blueviolet;
+  }
+}
+
+.containerApp {
+min-height: 95vh;
+
+}
